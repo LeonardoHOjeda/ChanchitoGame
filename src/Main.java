@@ -32,17 +32,7 @@ public class Main {
         showPlayers(arrayPlayers); /**Se muestran los jugadores*/
 
         try{
-            for(int j=0; j<numPlayers;j++){
-                do {
-                    throwDice(arrayPlayers);
-                } while (arrayPlayers[j].getDicePoints() > 100);
-                /*if(arrayPlayers[j].getDicePoints() > 100){
-                    break;
-                } else {
-                    throwDice(arrayPlayers);
-                }*/
-            }
-            //throwDice(arrayPlayers);
+            throwDice(arrayPlayers);
         }catch (Exception ex){
             System.err.println("Error en throwDice");
         }
@@ -59,33 +49,32 @@ public class Main {
     public static void throwDice(Player arrayPlayer[]) throws IOException {
         int dice1 = 0;
         int dice2 = 1;
+        int vuelta= 0;
+        int vuelta2 = 0;
+        //int playerPoints[] = new int[numPlayers];
 
         for(int i=0; i<numPlayers; i++) {
-            int playerPoint = arrayPlayer[i].getDicePoints();
-            if(arrayPlayer[i].getDicePoints() < 100){
-                do{
-                    System.out.print("*********POR FAVOR! TIRA EL DADO NUMERO 1, "+arrayPlayer[i].getName().toUpperCase()+"*********");
-                    System.in.read();
-                    dice1 = (int)(Math.random()*(5+1)+1);
-                    System.out.print("***TU PRIMER LANZAMIENTO ES: "+dice1+"***");
-                    System.out.print("\nVUELVE A LANZAR EL DADO");
-                    System.in.read();
-                    dice2= (int)(Math.random()*(5+1)+1);
-                    System.out.print("**TU SEGUNDO LANZAMIENTO ES: "+dice2+"***");
-                    if(dice1 == dice2){
-                        arrayPlayer[i].setDicePoints(arrayPlayer[i].getDicePoints()+((dice1+dice2)*2));
-                        System.out.println("\n~~~LOS PUNTOS DE: "+arrayPlayer[i].getName().toUpperCase()+" SON: "+arrayPlayer[i].getDicePoints()+"~~~");
-                        break;
-                    } else {
-                        arrayPlayer[i].setDicePoints(arrayPlayer[i].getDicePoints()+(dice1+dice2));
-                        System.out.println("\n~~~LOS PUNTOS DE: "+arrayPlayer[i].getName().toUpperCase()+" SON: "+arrayPlayer[i].getDicePoints()+"~~~");
-                    }
-
-                }while (arrayPlayer[i].getDicePoints() < 100);
-            } else {
-                break;
+            /*if(arrayPlayer[i].getDicePoints() < 100){*/
+            while (dice1 == dice2 || arrayPlayer[i].getDicePoints() < 100) {
+                System.out.println("Dado 1 = "+dice1 + "Dado 2: "+dice2);
+                System.out.print("\n*********POR FAVOR! TIRA EL DADO NUMERO 1, " + arrayPlayer[i].getName().toUpperCase() + "*********");
+                System.in.read();
+                dice1 = (int) (Math.random() * (5 + 1) + 1);
+                System.out.print("***TU PRIMER LANZAMIENTO ES: " + dice1 + "***");
+                System.out.print("\nVUELVE A LANZAR EL DADO");
+                System.in.read();
+                dice2 = (int) (Math.random() * (5 + 1) + 1);
+                System.out.print("**TU SEGUNDO LANZAMIENTO ES: " + dice2 + "***");
+                if (dice1 == dice2) {
+                    arrayPlayer[i].setDicePoints(arrayPlayer[i].getDicePoints() + ((dice1 + dice2) * 2));
+                } else {
+                    arrayPlayer[i].setDicePoints(arrayPlayer[i].getDicePoints() + (dice1 + dice2));
+                }
+                System.out.println("\nLOS PUNTOS DE: " + arrayPlayer[i].getName().toUpperCase() + " SON --> " + arrayPlayer[i].getDicePoints());
+                vuelta++;
+                System.out.println(vuelta);
             }
-
+            System.out.println("Pase por aqui "+vuelta2+" veces");
         }
     }
 }
