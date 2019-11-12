@@ -32,12 +32,13 @@ public class Main {
         showPlayers(arrayPlayers); /**Se muestran los jugadores*/
 
         try{
-            throwDice(arrayPlayers);
+            throwDice(arrayPlayers); /**Se tiran los dados */
+            //validacion(arrayPlayers);
         }catch (Exception ex){
             System.err.println("Error en throwDice");
         }
 
-
+        moreClose(arrayPlayers);
     }
 
     public static void showPlayers(Player arrayPlayer[]){
@@ -53,28 +54,58 @@ public class Main {
         int vuelta2 = 0;
         //int playerPoints[] = new int[numPlayers];
 
+        continuar:
         for(int i=0; i<numPlayers; i++) {
-            /*if(arrayPlayer[i].getDicePoints() < 100){*/
-            while (dice1 == dice2 || arrayPlayer[i].getDicePoints() < 100) {
-                System.out.println("Dado 1 = "+dice1 + "Dado 2: "+dice2);
-                System.out.print("\n*********POR FAVOR! TIRA EL DADO NUMERO 1, " + arrayPlayer[i].getName().toUpperCase() + "*********");
-                System.in.read();
-                dice1 = (int) (Math.random() * (5 + 1) + 1);
-                System.out.print("***TU PRIMER LANZAMIENTO ES: " + dice1 + "***");
-                System.out.print("\nVUELVE A LANZAR EL DADO");
-                System.in.read();
-                dice2 = (int) (Math.random() * (5 + 1) + 1);
-                System.out.print("**TU SEGUNDO LANZAMIENTO ES: " + dice2 + "***");
-                if (dice1 == dice2) {
-                    arrayPlayer[i].setDicePoints(arrayPlayer[i].getDicePoints() + ((dice1 + dice2) * 2));
-                } else {
-                    arrayPlayer[i].setDicePoints(arrayPlayer[i].getDicePoints() + (dice1 + dice2));
+            do {
+                if (arrayPlayer[i].getDicePoints() >= 100){
+                    continue continuar;
                 }
-                System.out.println("\nLOS PUNTOS DE: " + arrayPlayer[i].getName().toUpperCase() + " SON --> " + arrayPlayer[i].getDicePoints());
-                vuelta++;
-                System.out.println(vuelta);
-            }
+                else {
+                    System.out.println("\nDado 1 = "+dice1 + " Dado 2: "+dice2);
+                    System.out.print("\n*********POR FAVOR! TIRA EL DADO NUMERO 1, " + arrayPlayer[i].getName().toUpperCase() + "*********");
+                    System.in.read();
+                    dice1 = (int) (Math.random() * (5 + 1) + 1);
+                    System.out.print("***TU PRIMER LANZAMIENTO ES: " + dice1 + "***");
+                    System.out.print("\nVUELVE A LANZAR EL DADO");
+                    System.in.read();
+                    dice2 = (int) (Math.random() * (5 + 1) + 1);
+                    System.out.print("**TU SEGUNDO LANZAMIENTO ES: " + dice2 + "***");
+                    if (dice1 == dice2) {
+                        arrayPlayer[i].setDicePoints(arrayPlayer[i].getDicePoints() + ((dice1 + dice2) * 2));
+                    } else {
+                        arrayPlayer[i].setDicePoints(arrayPlayer[i].getDicePoints() + (dice1 + dice2));
+                    }
+                    System.out.println("\nLOS PUNTOS DE: " + arrayPlayer[i].getName().toUpperCase() + " SON --> " + arrayPlayer[i].getDicePoints());
+                    vuelta++;
+                    System.out.println(vuelta);
+                }
+            }while (dice1 != dice2);
             System.out.println("Pase por aqui "+vuelta2+" veces");
+        } /** Fin del For*/
+        validacion(arrayPlayer);
+    }
+
+    public static void validacion(Player arrayplayer[]) throws IOException{
+        for(int i=0; i<numPlayers; i++){
+            if(arrayplayer[i].getDicePoints() < 100){
+                throwDice(arrayplayer);
+            }
         }
+    }
+
+    public static void moreClose(Player arrayPlayer[]){
+        int meta = 100;
+        int moreClose = 0;
+        String winner = "";
+
+        for(int i=0; i<numPlayers;i++){
+            if(i==0){
+                moreClose = arrayPlayer[i].getDicePoints();
+            } else if (Math.abs(arrayPlayer[i].getDicePoints() - meta) < Math.abs(arrayPlayer[i-1].getDicePoints() - meta )){
+                moreClose = arrayPlayer[i].getDicePoints();
+                winner = String.valueOf(arrayPlayer[i].getName());
+            }
+        }
+        System.out.println("El ganador es: "+winner + " con una puntuacion de: "+moreClose);
     }
 }
