@@ -101,11 +101,13 @@ public class Main {
         for(int i=0; i<numPlayers;i++){
             if(i==0){
                 moreClose = arrayPlayer[i].getDicePoints();
+                winner = arrayPlayer[i].getName();
             } else if (Math.abs(arrayPlayer[i].getDicePoints() - meta) < Math.abs(arrayPlayer[i-1].getDicePoints() - meta )){
                 moreClose = arrayPlayer[i].getDicePoints();
                 winner = String.valueOf(arrayPlayer[i].getName());
             }
         }
-        System.out.println("El ganador es: "+winner + " con una puntuacion de: "+moreClose);
+        System.out.println(winner);
+        System.out.println("El ganador es: "+ winner + " con una puntuacion de: "+moreClose);
     }
 }
